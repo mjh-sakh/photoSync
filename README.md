@@ -5,26 +5,31 @@ PhotoSync is an intelligent photo synchronization and organization service built
 ## Features
 
 ### 📸 Auto-Grouping by Date
+
 Automatically organize incoming photos into groups by capture date. Photos from your camera are intelligently categorized, making it easy to find and manage them.
 
 ### 📁 Flexible Group Management
+
 - **Merge date groups**: Combine photos from multiple date ranges into single folders (e.g., "2025.11-12 Италия с Андреем")
 - **Split groups**: Break down large date ranges into smaller, more specific folders
 - **Custom naming**: Use flexible naming templates (YYYY.MM.DD) and add custom descriptions
 
 ### 💾 Smart Copy & Backup
+
 - Copy organized photos to your master photo library
 - Support for RAW file preservation in separate subfolders
 - Intelligent backup detection to identify moved vs. deleted files
 - Cloud integration for photos synced from multiple cameras
 
 ### 🔄 Multi-Source Sync
+
 - Import photos from USB flash drives
 - Pull photos from cloud storage
 - Merge photos from multiple cameras
 - Consolidate new photos into existing folder structures
 
 ### ↩️ Undo Support
+
 Accidentally deleted something? Undo your recent actions to restore your photo organization.
 
 ## Tech Stack
@@ -48,6 +53,7 @@ PhotoSyncService/
 ## Getting Started
 
 ### Prerequisites
+
 - .NET 10.0 SDK
 - Mise (for environment management, optional)
 
@@ -96,6 +102,7 @@ For development-specific settings, create an `appsettings.Development.json` file
 ## Usage Scenarios
 
 ### Scenario 1: New Photos from USB Drive
+
 1. Connect USB flash drive with new photos
 2. PhotoSync automatically detects and groups them by date
 3. Create folder names using the template system
@@ -103,24 +110,28 @@ For development-specific settings, create an `appsettings.Development.json` file
 5. Delete originals from the USB drive as backup
 
 ### Scenario 2: Filter & Archive
+
 1. Review and filter copied photos
 2. Delete unwanted files (JPEGs, duplicates, etc.)
 3. Keep RAW files in a separate folder for backup
 4. Move the cleaned USB drive for next import
 
 ### Scenario 3: Cloud Integration
+
 1. Import photos synced to cloud from multiple cameras
 2. PhotoSync suggests existing folder destinations
 3. Group and consolidate photos by date range
 4. Copy new photos into matched folder structure
 
 ### Scenario 4: Backup Management
+
 1. Copy new files to backup folder
 2. PhotoSync tracks file moves vs. deletions
 3. Only creates backup entries for new files
 4. Maintains complete backup history
 
 ### Scenario 5: Undo Recent Changes
+
 - Accidentally reorganized photos?
 - Made a mistake during copy/delete?
 - Use Undo to restore previous state
@@ -156,4 +167,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Support
 
 For issues and feature requests, please open an issue on the repository.
-

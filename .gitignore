@@ -50,3 +50,5 @@ staticwebassets/
 *.backup
 *.tmp
 
+# User data
+userData/
