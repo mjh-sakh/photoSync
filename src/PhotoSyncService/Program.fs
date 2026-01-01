@@ -2,9 +2,13 @@ open Falco
 open Falco.Routing
 open Microsoft.AspNetCore.Builder
 
-// Run first-time initialization if needed
-let settings = Config.readSettings ()
+let _ = Config.readSettings ()
+
+let endpoints =
+    [ get "/" SettingsPage.getSettings
+      get "/settings" SettingsPage.getSettings
+      put "/settings" SettingsPage.putSettings ]
 
 let wapp = WebApplication.Create()
 
-wapp.UseRouting().UseFalco([ get "/" (Response.ofPlainText "Hello World!") ]).Run(Response.ofPlainText "Not found")
+wapp.UseStaticFiles().UseRouting().UseFalco(endpoints).Run(Response.ofPlainText "Not found")

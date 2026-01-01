@@ -8,6 +8,11 @@ let userDataPath =
 
 let settingsFilePath = Path.Combine(userDataPath, "settings.json")
 
+type SettingsForm =
+    { DefaultFolderNameTemplate: string
+      SeparateRawFiles: bool
+      RawFilesFolderName: string }
+
 let defaultSettings =
     Map
         [ "defaultFolderNameTemplate", box "{YYYY}.{MM}.{DD} {Description}"
