@@ -12,3 +12,6 @@ let endpoints =
 let wapp = WebApplication.Create()
 
 wapp.UseStaticFiles().UseRouting().UseFalco(endpoints).Run(Response.ofPlainText "Not found")
+|> ignore
+
+wapp.Run()

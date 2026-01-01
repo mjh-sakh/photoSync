@@ -2,42 +2,56 @@ module Config
 
 open System.IO
 open System.Text.Json
+open System.Text.Json.Nodes
 
 let userDataPath =
     Path.Combine(Directory.GetCurrentDirectory(), "..", "..", "userData")
 
 let settingsFilePath = Path.Combine(userDataPath, "settings.json")
 
-type SettingsForm =
+type Settings =
     { DefaultFolderNameTemplate: string
       SeparateRawFiles: bool
       RawFilesFolderName: string }
 
-let defaultSettings =
-    Map
-        [ "defaultFolderNameTemplate", box "{YYYY}.{MM}.{DD} {Description}"
-          "separateRawFiles", box false
-          "rawFilesFolderName", box "raw" ]
+module SettingsField =
+    [<Literal>]
+    let DefaultFolderNameTemplate = "defaultFolderNameTemplate"
 
-let readSettings () =
+    [<Literal>]
+    let SeparateRawFiles = "separateRawFiles"
+
+    [<Literal>]
+    let RawFilesFolderName = "rawFilesFolderName"
+
+let defaultSettings: Settings =
+    { DefaultFolderNameTemplate = "{YYYY}.{MM}.{DD} {Description}"
+      SeparateRawFiles = false
+      RawFilesFolderName = "raw" }
+
+let readSettings () : Settings =
     printfn "Starting initialization..."
 
     if not (Directory.Exists userDataPath) then
         Directory.CreateDirectory userDataPath |> ignore
         printfn "Created userData directory at: %s" userDataPath
 
+    if not (File.Exists settingsFilePath) then
+        let json = JsonSerializer.Serialize(defaultSettings)
+        File.WriteAllText(settingsFilePath, json)
+        defaultSettings
+    else
+        let defaultNode = JsonSerializer.SerializeToNode(defaultSettings).AsObject()
+        let userNode = settingsFilePath |> File.ReadAllText |> JsonNode.Parse
+        let userProperties = userNode.AsObject()
 
-    let settings =
-        if not (File.Exists settingsFilePath) then
-            File.WriteAllText(settingsFilePath, JsonSerializer.Serialize defaultSettings)
-            defaultSettings
-        else
-            settingsFilePath
-            |> File.ReadAllText
-            |> JsonSerializer.Deserialize<Map<string, obj>>
-            |> fun loaded -> loaded |> Map.fold (fun acc k v -> Map.add k v acc) defaultSettings
+        userProperties
+        |> Seq.iter (fun property -> defaultNode.[property.Key] <- property.Value.DeepClone())
 
-    settings
+        defaultNode.Deserialize<Settings>()
 
-let writeSettings (settings: Map<string, obj>) =
-    File.WriteAllText(settingsFilePath, JsonSerializer.Serialize settings)
+
+
+let writeSettings (settings: Settings) =
+    let json = JsonSerializer.Serialize(settings)
+    File.WriteAllText(settingsFilePath, json)
